@@ -1,0 +1,22 @@
+{
+    "name": "sanderheijselaar/slacknotifier",
+    "description": "A package for easy implementing slack notifications in your own project",
+    "license": "MIT",
+    "keywords": ["php", "slack", "notifications"],
+    "authors": [
+        {
+            "name": "Sander Heijselaar",
+            "email": "info@xl-and.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+		"guzzlehttp/guzzle": "5.2.*"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "SanderHeijselaar\\SlackNotifier\\": "src"
+        }
+    }
+}
