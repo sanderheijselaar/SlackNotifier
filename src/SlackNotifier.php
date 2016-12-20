@@ -1,10 +1,12 @@
 <?php
 namespace SanderHeijselaar\SlackNotifier;
 
+use GuzzleHttp\Client as GuzzleClient;
+
 /**
  * Class for sending notifications to slack
  *
- * @version 0.1.0
+ * @version 0.2.0
  * @author Sander Heijselaar <info@xl-and.com>
  */
 Class SlackNotifier
@@ -13,7 +15,9 @@ Class SlackNotifier
     const COLOR_WARNING = 'warning';
     const COLOR_DANGER  = 'danger';
 
+    /** @var array */
 	protected $config;
+    /** @var GuzzleClient */
 	protected $client;
 
     protected $attachments = array();
@@ -21,14 +25,16 @@ Class SlackNotifier
 
 	/**
 	 * Constructor method
-	 * Reads the config and inits Guzzle
+     * Reads the config and inits Guzzle
+     *
+     * @param array $config
 	 */
 	public function __construct($config)
 	{
         $this->config = $config;
 
 		// Init guzzle
-		$this->client = new \GuzzleHttp\Client([
+		$this->client = new GuzzleClient([
 			'base_url' => $this->getConfig('base_url'),
 			'defaults' => [
 				'exceptions' => $this->getConfig('exceptions')
@@ -46,8 +52,7 @@ Class SlackNotifier
             'mrkdwn'      => $markDownText,
             'attachments' => $this->attachments,
 		]);
-
-		return $this->client->post($this->getConfig('uri'), ['body' => $payload]);
+        return $this->client->post($this->getConfig('base_url') . $this->getConfig('uri'), ['body' => $payload]);
 	}
 
     public function newAttachment()
@@ -163,7 +168,7 @@ Class SlackNotifier
     /**
 	 * Get a settings from the slack config
 	 *
-	 * @param type $setting
+	 * @param string $setting
 	 *
 	 * @return mixed|false Mixed when exists, false when the config setting isn't found
 	 */
